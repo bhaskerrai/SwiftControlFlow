@@ -177,3 +177,100 @@ case (-2...2, -2...2):
 default:
     print("\(somePoint) is outside of the box")
 }
+
+//“Unlike C, Swift allows multiple switch cases to consider the same value or values. In fact, the point (0, 0) could match all four of the cases in this example. However, if multiple matches are possible, the first matching case is always used. The point (0, 0) would match case (0, 0) first, and so all other matching cases would be ignored.”
+
+
+//Value Binding
+//“A switch case can name the value or values it matches to temporary constants or variables, for use in the body of the case. This behavior is known as value binding, because the values are bound to temporary constants or variables within the case’s body.”
+
+let anotherPoint = (2, 0)
+switch anotherPoint {
+case (let x, 0):
+    print("on the x-axis with an x value of \(x)")
+case (0, let y):
+    print("on the y-axis with a y value of \(y)")
+case let (x, y):
+    print("somewhere else at (\(x), \(y))")
+}
+
+
+//Where
+//“A switch case can use a where clause to check for additional conditions.”
+var ab = 33
+
+switch ab{
+case var h where ab % 2 == 0:
+    h = 2
+    print("The number is even is divible by \(h)")
+
+case _ where ab % 2 != 0:
+    print("The number is odd not divisible by 2.")
+default:
+    print("illegal")
+}
+
+//“Compound Cases
+
+//Multiple switch cases that share the same body can be combined by writing several patterns after case, with a comma between each of the patterns. If any of the patterns match, then the case is considered to match. The patterns can be written over multiple lines if the list is long. For example:
+
+let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    print("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+     "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    print("\(someCharacter) is a consonant")
+default:
+    print("\(someCharacter) isn't a vowel or a consonant")
+}
+
+
+let car = "BMW"
+switch car{
+case "BMW","Rolls Royes","Lumbergeni","Ferrari":
+    print("Your GST is 30%")
+case "Honda","Toyota","Nissan","Swizikui":
+    print("Your GST is 10%")
+default:
+    print("Your GST is 5%")
+}
+
+
+//“Compound cases can also include value bindings. All of the patterns of a compound case have to include the same set of value bindings, and each binding has to get a value of the same type from all of the patterns in the compound case. ”
+let stillAnotherPoint = (9, 0)
+switch stillAnotherPoint {
+case (let distance, 0), (0, let distance):
+    print("On an axis, \(distance) from the origin")
+default:
+    print("Not on an axis")
+}
+// Prints "On an axis, 9 from the origin”
+
+
+/*
+ Control Transfer Statements:
+ Control transfer statements change the order in which your code is executed, by transferring control from one piece of code to another. Swift has five control transfer statements:
+
+ continue
+
+ break
+
+ fallthrough
+
+ return
+
+ throw
+ */
+
+var text = "hjsdkalaj sjadkjladja"
+let arr: [Character] = ["a","e","i","o","u"," "]
+print("The text has following consonants:")
+
+for i in text{
+    if arr.contains(i){
+        continue
+    }
+    print(i, terminator: " ")
+}
+
