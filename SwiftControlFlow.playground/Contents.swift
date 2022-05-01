@@ -294,3 +294,142 @@ default:
 print(type)
 
 //“The fallthrough keyword doesn’t check the case conditions for the switch case that it causes execution to fall into. The fallthrough keyword simply causes code execution to move directly to the statements inside the next case (or default case) block, as in C’s standard switch statement behavior.”
+
+
+
+
+//Labeled Statements:
+//When using nested loops, we can terminate the outer loop with a labeled break statement or we can skip the current iteration of the outer loop with a labeled continue statement.
+
+//Swift’s labeled statements allow us to name certain parts of our code, and it’s most commonly used for breaking out of nested loops.
+
+
+//To demonstrate them, let’s look at an example where we’re trying to figure out the correct combination of movements to unlock a safe. We might start by defining an array of all possible movements:
+
+let options = ["up", "down", "left", "right"]
+//For testing purposes, here’s the secret combination we’re trying to guess:
+
+let secretCombination = ["up", "up", "right"]
+//To find that combination, we need to make arrays containing all possible three-color variables:
+
+//up, up, up
+//up, up, down
+//up, up, left
+//up, up, right
+//up, down, left
+//up, down, right
+//…you get the idea.
+
+//To make that happen, we can write three loops, one nested inside the other, like this:
+
+for option1 in options {
+    for option2 in options {
+        for option3 in options {
+            print("In loop")
+            let attempt = [option1, option2, option3]
+
+            if attempt == secretCombination {
+                print("The combination is \(attempt)!")
+            }
+        }
+    }
+}
+//That goes over the same items multiple times to create an attempt array, and prints out a message if its attempt matches the secret combination.
+
+//But that code has a problem: as soon as we find the combination we’re done with the loops, so why do they carry on running? What we really want to say is “as soon as the combination is found, exit all the loops at once” – and that’s where labeled statements come in. They let us write this:
+
+print("\n")
+outerLoop: for option1 in options {
+    for option2 in options {
+        for option3 in options {
+            print("In loop")
+            let attempt = [option1, option2, option3]
+
+            if attempt == secretCombination {
+                print("The combination is \(attempt)!")
+                break outerLoop
+            }
+        }
+    }
+}
+
+
+//without labeled loop:
+
+for i in 1...3{
+    for j in 1...3{
+        
+        if i == 2{
+            break
+        }
+        print("i = \(i), j = \(j)")
+        
+    }
+}
+
+// labeled loop:
+
+print("\n")
+myLabelForOuterLoop: for i in 1...3{
+    for j in 1...3{
+
+        if i == 2{
+            break myLabelForOuterLoop
+        }
+        print("i = \(i), j = \(j)")
+
+    }
+}
+
+//using continue instead of break
+print("\n")
+myLabelForOuterLoop: for i in 1...3{
+    for j in 1...3{
+
+        if i == 2{
+            continue myLabelForOuterLoop
+        }
+        print("i = \(i), j = \(j)")
+
+    }
+}
+
+
+
+
+//Early Exit
+//A guard statement, like an if statement, executes statements depending on the Boolean value of an expression. You use a guard statement to require that a condition must be true in order for the code after the guard statement to be executed. Unlike an if statement, a guard statement always has an else clause—the code inside the else clause is executed if the condition isn’t true.
+
+func myFunc(movie: [String:String]){
+    
+    guard let movieName = movie["name"], let movieYear = movie["year"] else{
+        print("No fucking movie was given to me.")
+        return
+    }
+    
+    print("\nThe \(movieName) was released in \(movieYear).")
+    
+}
+
+myFunc(movie: ["name":"Tenet","year":"2020"])
+
+//“If the guard statement’s condition is met, code execution continues after the guard statement’s closing brace. Any variables or constants that were assigned values using an optional binding as part of the condition are available for the rest of the code block that the guard statement appears in.
+
+//If that condition isn’t met, the code inside the else branch is executed. That branch must transfer control to exit the code block in which the guard statement appears. It can do this with a control transfer statement such as return, break, continue, or throw, or it can call a function or method that doesn’t return, such as fatalError(_:file:line:).”
+
+
+
+
+//Checking API Availability
+
+//“You use an availability condition in an if or guard statement to conditionally execute a block of code, depending on whether the APIs you want to use are available at runtime. The compiler uses the information from the availability condition when it verifies that the APIs in that block of code are available.
+
+if #available(iOS 10, macOS 10.12, *) {
+    print("\ncondition satisfied")
+    // Use iOS 10 APIs on iOS, and use macOS 10.12 APIs on macOS
+} else {
+    // Fall back to earlier iOS and macOS APIs
+    print("\ncondition not satisfied")
+}
+//The availability condition above specifies that in iOS, the body of the if statement executes only in iOS 10 and later; in macOS, only in macOS 10.12 and later. The last argument, *, is required and specifies that on any other platform, the body of the if executes on the minimum deployment target specified by your target.”
+
